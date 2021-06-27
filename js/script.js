@@ -1,68 +1,67 @@
 document.querySelector(".button-container").addEventListener("click", () => {
   let text = document.getElementById("filter-jobs").value;
-  getJobs().then(jobs => {
-    let filteredJobs = filterJobs(jobs, text);
-    showJobs(filteredJobs)
+  getDevs().then(devs => {
+    let filteredDevs = filterDevs(devs, text);
+    showDevs(filteredDevs)
   })
   console.log(text);
 })
 
 
 
-const getJobs = () => {
-  return fetch("data.json").then(response => response.json()).then(data => {
+const getDevs = () => {
+
+  url = "https://api.github.com/users"
+
+  return fetch(url).then(response => response.json()).then(data => {
     return data;
   })
 }
 
 
-const filterJobs = (jobs, searchText) => {
+const filterDevs = (devs, searchText) => {
   if (searchText) {
-    let filteredJobs = jobs.filter(job => {
-      if (job.roleName.toLowerCase().includes(searchText)
-        || job.type.toLowerCase().includes(searchText) 
-        || job.company.toLowerCase().includes(searchText) 
-        || job.requirements.content.toLowerCase().includes(searchText))  {
+    let filtereddevs = devs.filter(dev => {
+      if (dev.login.toLowerCase().includes(searchText))  {
         return true;
       } else {
         return false;
       }
     })
-    return filteredJobs;
+    return filtereddevs;
   } else {
-    return jobs;
+    return devs;
   }
 }
 
 
-const showJobs = (jobs) => {
-  console.log("Jobs in showjobs", jobs);
+const showDevs = (devs) => {
+  console.log("devs in showDevs", devs);
 
-  let jobsContainer = document.querySelector(".jobs-container");
+  let devsContainer = document.querySelector(".jobs-container");
   
-  let jobsHTML = "";
+  let devsHTML = "";
+
+  let devAmount = document.querySelector(".dev-amount");
   
-  jobs.forEach((job) => {
-    jobsHTML += 
+  devs.forEach((dev) => {
+    devsHTML += 
     `<div class="job-tile">
       <div class="top">
-        <img src="${job.logo}"
+        <img src="${dev.avatar_url}"
           alt="">
         <span class="material-icons more-horiz">more_horiz</span>
       </div>
 
       <div class="rolename">
-        <span>${job.roleName}</span>
+        <span>${dev.login}</span>
       </div>
-
-      <div class="description">
-        <span>${job.requirements.content}</span>
-      </div>
-
       <div class="buttons">
+
         <div class="button apply-now">
-          Apply Now
+            <a target=_blank href=${dev.html_url}>View Profile</a>
         </div>
+      
         <div class="button">
           Message
         </div>
@@ -72,11 +71,13 @@ const showJobs = (jobs) => {
   `
   })
 
-  jobsContainer.innerHTML = jobsHTML;
+  devAmount.innerHTML = `Showing ${devs.length} Devs`
+
+  devsContainer.innerHTML = devsHTML;
 }
 
 
 
-getJobs().then(data => {
-  showJobs(data)
+getDevs().then(data => {
+  showDevs(data)
 })

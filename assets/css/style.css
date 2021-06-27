@@ -91,8 +91,8 @@ header {
 }
 
 .button-container {
-  background-color: #3060FF;
-  border: 2px solid #3060FF;
+  background-color: orange;
+  border: 2px solid orange;
   border-radius: 10px;
   width: 100px;
   display: flex;
@@ -105,8 +105,8 @@ header {
 
 
 .button-container:hover {
-  background-color: #5a81ff;
-  border: 2px solid #5a81ff;
+  background-color: rgb(255, 193, 79);
+  border: 2px solid rgb(255, 193, 79);
 }
 
 
@@ -207,8 +207,15 @@ header {
 
 .apply-now {
   color: white;
-  background-color: #3060FF;
+  background-color: orange;
   margin-right: 15px;
+  text-decoration: none;
+  font-size: 15px;
+}
+
+.apply-now a {
+  text-decoration: none;
+  color: white;
 }
 
 
